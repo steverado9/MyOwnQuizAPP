@@ -119,6 +119,7 @@ function displayResult() {
     quizContainer.style.display = 'none'; //element housing the question and option should be hidden
     submitButton.style.display = 'none'; //submit buton should be hidden
     retryButton.style.display = 'inline-block'; //retry button should be displayed
+    retryButton.style.marginTop = '30px';
     resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`; //text content of result element should display score and quiz length
 }
 //function to retry quiz
