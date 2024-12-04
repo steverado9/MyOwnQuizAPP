@@ -50,10 +50,11 @@ const quizData = [
         options: ['Omnivores', 'Canivores', 'Harbivores', 'Plant And Animal vores'],
         answer: 'Omnivores'
     }
-
 ]
+
 const quizContainer = document.getElementById('quiz'); //get the element that will display the question and option
 const resultContainer = document.getElementById('result');// get the element to display result
+const errorMsg = document.getElementById('errorMsg');
 const submitButton = document.querySelector('#submit'); //get the submit button
 const retryButton = document.getElementById('retry'); //get the retry button
 
@@ -86,34 +87,39 @@ function displayQuestion() {
         option.appendChild(radio); //append the radio button to the label element
         option.appendChild(optionText); //append the textnode of each element to the label element
         optionElement.appendChild(option); //append the label element to the div element housing the options
+       
+        
         
     }
+
     quizContainer.innerHTML = ''; //empty the div element to display questions and answers
     quizContainer.appendChild(questionElement); //append the question div to the div element housing question and option
     quizContainer.appendChild(optionElement); //append the option div to the div element housing question and option
-    
-    
 }
+
 //function to check answer
 function checkAnswer() {
     selectedOption = document.querySelector('input[name = "quiz"]:checked')// get the radio button that is checked
-    
-    if (selectedOption) { //if radio button that is checked
+    console.log('checked', selectedOption);
+    if (selectedOption == null){
+        errorMsg.style.display = 'block';
+        return errorMsg.textContent = "please select an option"
+         
+    } else if (selectedOption) { //if radio button that is checked
         const answer = selectedOption.value; //value of checked radio button
+        
         if (answer === quizData[currentQuestion].answer) { //value of checked radio button === answer of the question
             score++; //score = score + 1
-        } else {
-            answer === 'incorrect'; //value of checked radio button === incorrect
         }
     }
     currentQuestion++; //currentQuestion = currentQuestion + 1 
-    selectedOption === false; // when selected option is false nothing happens
     if(currentQuestion < quizData.length) { //if currentQuestion < array of object length 
         displayQuestion(); //display question
     } else {
         displayResult(); //display result 
     }
 }
+
 //function to display result
 function displayResult() { 
     quizContainer.style.display = 'none'; //element housing the question and option should be hidden
@@ -122,6 +128,7 @@ function displayResult() {
     retryButton.style.marginTop = '30px';
     resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`; //text content of result element should display score and quiz length
 }
+
 //function to retry quiz
 function retryQuiz() {
     currentQuestion = 0; //current question = 0
@@ -138,7 +145,3 @@ submitButton.addEventListener('click', checkAnswer); //when you click on the sub
 retryButton.addEventListener('click', retryQuiz); //when you click on the retry button, retryQuiz is triggered
 
 displayQuestion(); //calls displayQuestion
-
-
-
-
